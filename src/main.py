@@ -1,24 +1,46 @@
 from fastapi import FastAPI
 from api.getIpcaTotal import getIpcaTotal
+from api.getIpcaBensDuraveis import getIpcaBensDuraveis
+from api.getIpcaBensNaoDuraveis import getIpcaBensNaoDuraveis
+from api.getIpcaServicos import getIpcaServicos
 from Json.JsonHandler import json_load
 
 app = FastAPI()
 
 @app.get("/Ipca/PrecosMonitoradosTotal")
-def read_item():
+def preco_amplo_total():
     try:
-        responseRaw, lasIpca, statusCode = getIpcaTotal()
-        return lasIpca
+        ipca, statusCode = getIpcaTotal()
+        return ipca
     except Exception as error:
-        errorCode = "Failed to realize action the error is :"+str(error)
+        errorCode = "Failed to realize action the error is: "+str(error)
         return errorCode
     
-@app.get("/Ipca/PrecosMonitoradosTotal/raw")
-def read_item():
+
+@app.get("/Ipca/BensDuraveis")
+def preco_bens_duraveis():
     try:
-        responseRaw, lasIpca, statusCode = getIpcaTotal()
-        return responseRaw
+        ipca, statusCode = getIpcaBensDuraveis()
+        return ipca
     except Exception as error:
-        errorCode = "Failed to realize action the return status from BC API were: "+str(statusCode)
+        errorCode = "Failed to realize action the error is: "+str(error)
+        return errorCode
+    
+@app.get("/Ipca/BensNaoDuraveis")
+def preco_bens_nao_duraveis():
+    try:
+        ipca, statusCode = getIpcaBensNaoDuraveis()
+        return ipca
+    except Exception as error:
+        errorCode = "Failed to realize action the error is: "+str(error)
+        return errorCode
+    
+@app.get("/Ipca/Servicos")
+def servicos():
+    try:
+        ipca, statusCode = getIpcaServicos()
+        return ipca
+    except Exception as error:
+        errorCode = "Failed to realize action the error is: "+str(error)
         return errorCode
     
