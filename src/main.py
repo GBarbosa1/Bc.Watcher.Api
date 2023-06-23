@@ -53,8 +53,7 @@ def servicos():
         browser = scrap_init(url)
         dateElement = get_element_xpath(browser, settings["scrapUrls"][0]["ataCopomDateXpath"])
         date = strip(dateElement)
-        #needs to strip the download button url
-        return ipca
+        return date
     except Exception as error:
         errorCode = "Failed to realize action the error is: "+str(error)
         return errorCode
