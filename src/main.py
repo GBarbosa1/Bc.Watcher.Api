@@ -58,3 +58,15 @@ def servicos():
         errorCode = "Failed to realize action the error is: "+str(error)
         return errorCode
     
+@app.get("/recorddownloadlink")
+def servicos():
+    try:
+        settings = json_load("settings\settings.json")
+        url = settings["scrapUrls"][0]["ataDoCopom"]
+        browser = scrap_init(url)
+        downloadElement = get_element_xpath(browser, settings["scrapUrls"][0]["ataDownloadXPath"])
+        downloadElement = downloadElement.get_attribute('href')
+        return downloadElement
+    except Exception as error:
+        errorCode = "Failed to realize action the error is: "+str(error)
+        return errorCode
