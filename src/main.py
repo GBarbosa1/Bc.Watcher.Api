@@ -5,6 +5,7 @@ from api.getIpcaBensNaoDuraveis import getIpcaBensNaoDuraveis
 from api.getIpcaServicos import getIpcaServicos
 from Json.JsonHandler import json_load
 from scrap.scrap_engine import scrap_init, get_url,get_element_xpath, strip
+import requests
 
 app = FastAPI()
 
@@ -70,3 +71,11 @@ def servicos():
     except Exception as error:
         errorCode = "Failed to realize action the error is: "+str(error)
         return errorCode
+
+@app.post("/sendmessage")
+def message():
+    HTTP_API_TOKEN = ""
+    CHAT_ID = ""
+    URL = "https://api.telegram.org/bot{HTTP_API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={MESSAGE_TEXT}"
+    response = requests.post(URL).json()
+    return response
