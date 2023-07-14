@@ -76,6 +76,7 @@ def servicos():
 def message():
     HTTP_API_TOKEN = ""
     CHAT_ID = ""
-    URL = "https://api.telegram.org/bot{HTTP_API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={MESSAGE_TEXT}"
+    MESSAGE_TEXT = ''
+    URL = "https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}".format(HTTP_API_TOKEN,CHAT_ID,MESSAGE_TEXT)
     response = requests.post(URL).json()
-    return response
+    return response, URL
