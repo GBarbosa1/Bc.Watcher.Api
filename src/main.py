@@ -6,8 +6,13 @@ from api.getIpcaServicos import getIpcaServicos
 from Json.JsonHandler import json_load
 from scrap.scrap_engine import scrap_init, get_url,get_element_xpath, strip
 import requests
+from pydantic import BaseModel
 
 app = FastAPI()
+
+class Message(BaseModel):
+    text: str
+    
 
 @app.get("/Ipca/PrecosMonitoradosTotal")
 def preco_amplo_total():
@@ -73,10 +78,10 @@ def servicos():
         return errorCode
 
 @app.post("/sendmessage")
-def message():
+def message(telegram_text:Message):
     HTTP_API_TOKEN = ""
     CHAT_ID = ""
-    MESSAGE_TEXT = ''
-    URL = "https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}".format(HTTP_API_TOKEN,CHAT_ID,MESSAGE_TEXT)
+    MESSAGE_TEXT = telegram_text.text
+    URL = f"https://api.telegram.org/bot{HTTP_API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={MESSAGE_TEXT}"
     response = requests.post(URL).json()
     return response, URL
