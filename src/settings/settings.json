@@ -5,6 +5,14 @@
             "precosAoConsumidorBensDuraveis":"https://api.bcb.gov.br/dados/serie/bcdata.sgs.10841/dados/ultimos/12?formato=json",
             "precosAoConsumidorBensNaoDuraveis":"https://api.bcb.gov.br/dados/serie/bcdata.sgs.10841/dados/ultimos/10?formato=json",
             "precoAoConsumidorServicos":"https://api.bcb.gov.br/dados/serie/bcdata.sgs.10844/dados/ultimos/10?formato=json"
+            
+        }
+    ],
+    "scrapUrls":[
+        {
+            "ataDoCopom":"https://www.bcb.gov.br/publicacoes/atascopom",
+            "ataCopomDateXpath":"//div[@id='publicacao']/div[@class='col-lg-9 d-flex flex-column']/div[@class='border-top border-top-5 p-3']/div[@class='row']//span[@class='font-color-1']",
+            "ataDownloadXPath":"//div[@id='publicacao']/div[@class='col-lg-9 d-flex flex-column']/div[@class='border-top border-top-5 p-3']/div[@class='row']//download[@class='mr-2']//a[@role='button']"
         }
     ]
 }

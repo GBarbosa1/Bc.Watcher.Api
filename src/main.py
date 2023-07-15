@@ -4,8 +4,15 @@ from api.getIpcaBensDuraveis import getIpcaBensDuraveis
 from api.getIpcaBensNaoDuraveis import getIpcaBensNaoDuraveis
 from api.getIpcaServicos import getIpcaServicos
 from Json.JsonHandler import json_load
+from scrap.scrap_engine import scrap_init, get_url,get_element_xpath, strip
+import requests
+from pydantic import BaseModel
 
 app = FastAPI()
+
+class Message(BaseModel):
+    text: str
+    
 
 @app.get("/Ipca/PrecosMonitoradosTotal")
 def preco_amplo_total():
@@ -44,3 +51,37 @@ def servicos():
         errorCode = "Failed to realize action the error is: "+str(error)
         return errorCode
     
+@app.get("/ata")
+def servicos():
+    try:
+        settings = json_load("settings\settings.json")
+        url = settings["scrapUrls"][0]["ataDoCopom"]
+        browser = scrap_init(url)
+        dateElement = get_element_xpath(browser, settings["scrapUrls"][0]["ataCopomDateXpath"])
+        date = strip(dateElement)
+        return date
+    except Exception as error:
+        errorCode = "Failed to realize action the error is: "+str(error)
+        return errorCode
+    
+@app.get("/recorddownloadlink")
+def servicos():
+    try:
+        settings = json_load("settings\settings.json")
+        url = settings["scrapUrls"][0]["ataDoCopom"]
+        browser = scrap_init(url)
+        downloadElement = get_element_xpath(browser, settings["scrapUrls"][0]["ataDownloadXPath"])
+        downloadElement = downloadElement.get_attribute('href')
+        return downloadElement
+    except Exception as error:
+        errorCode = "Failed to realize action the error is: "+str(error)
+        return errorCode
+
+@app.post("/sendmessage")
+def message(telegram_text:Message):
+    HTTP_API_TOKEN = ""
+    CHAT_ID = ""
+    MESSAGE_TEXT = telegram_text.text
+    URL = f"https://api.telegram.org/bot{HTTP_API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={MESSAGE_TEXT}"
+    response = requests.post(URL).json()
+    return response, URL
