@@ -1,12 +1,10 @@
 from fastapi import FastAPI
-from api.getIpcaTotal import getIpcaTotal
-from api.getIpcaBensDuraveis import getIpcaBensDuraveis
-from api.getIpcaBensNaoDuraveis import getIpcaBensNaoDuraveis
-from api.getIpcaServicos import getIpcaServicos
+from api.getIpca import getIpcaTotal, getIpcaBensDuraveis, getIpcaBensNaoDuraveis, getIpcaServicos
 from Json.JsonHandler import json_load
 from scrap.scrap_engine import scrap_init, get_url,get_element_xpath, strip
 import requests
 from pydantic import BaseModel
+import uvicorn
 
 app = FastAPI()
 
@@ -14,38 +12,38 @@ class Message(BaseModel):
     text: str
     
 
-@app.get("/Ipca/PrecosMonitoradosTotal")
-def preco_amplo_total():
+@app.get("/Ipca/PrecosMonitoradosTotal/{last}")
+def preco_amplo_total(last:str):
     try:
-        ipca, statusCode = getIpcaTotal()
-        return ipca
+        ipca, statusCode = getIpcaTotal(last)
+        return ipca, last
     except Exception as error:
         errorCode = "Failed to realize action the error is: "+str(error)
-        return errorCode
+        return errorCode, last
     
 
-@app.get("/Ipca/BensDuraveis")
-def preco_bens_duraveis():
+@app.get("/Ipca/BensDuraveis/{last}")
+def preco_bens_duraveis(last:str):
     try:
-        ipca, statusCode = getIpcaBensDuraveis()
+        ipca, statusCode = getIpcaBensDuraveis(last)
         return ipca
     except Exception as error:
         errorCode = "Failed to realize action the error is: "+str(error)
         return errorCode
     
-@app.get("/Ipca/BensNaoDuraveis")
-def preco_bens_nao_duraveis():
+@app.get("/Ipca/BensNaoDuraveis/{last}")
+def preco_bens_nao_duraveis(last:str):
     try:
-        ipca, statusCode = getIpcaBensNaoDuraveis()
+        ipca, statusCode = getIpcaBensNaoDuraveis(last)
         return ipca
     except Exception as error:
         errorCode = "Failed to realize action the error is: "+str(error)
         return errorCode
     
-@app.get("/Ipca/Servicos")
-def servicos():
+@app.get("/Ipca/Servicos/{last}")
+def servicos(last:str):
     try:
-        ipca, statusCode = getIpcaServicos()
+        ipca, statusCode = getIpcaServicos(last)
         return ipca
     except Exception as error:
         errorCode = "Failed to realize action the error is: "+str(error)
@@ -85,3 +83,6 @@ def message(telegram_text:Message):
     URL = f"https://api.telegram.org/bot{HTTP_API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={MESSAGE_TEXT}"
     response = requests.post(URL).json()
     return response, URL
+
+if __name__ == "__main__":
+    uvicorn.run(app, host = "127.0.0.1", port=8000)

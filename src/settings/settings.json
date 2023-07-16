@@ -1,11 +1,10 @@
 {
     "apisUrls":[
         {
-            "precosMonitoradosTotal":"https://api.bcb.gov.br/dados/serie/bcdata.sgs.4449/dados/ultimos/12?formato=json",
-            "precosAoConsumidorBensDuraveis":"https://api.bcb.gov.br/dados/serie/bcdata.sgs.10841/dados/ultimos/12?formato=json",
-            "precosAoConsumidorBensNaoDuraveis":"https://api.bcb.gov.br/dados/serie/bcdata.sgs.10841/dados/ultimos/10?formato=json",
-            "precoAoConsumidorServicos":"https://api.bcb.gov.br/dados/serie/bcdata.sgs.10844/dados/ultimos/10?formato=json"
-            
+            "precosMonitoradosTotal":"https://api.bcb.gov.br/dados/serie/bcdata.sgs.4449/dados/ultimos/",
+            "precosAoConsumidorBensDuraveis":"https://api.bcb.gov.br/dados/serie/bcdata.sgs.10841/dados/ultimos/",
+            "precosAoConsumidorBensNaoDuraveis":"https://api.bcb.gov.br/dados/serie/bcdata.sgs.10841/dados/ultimos/",
+            "precoAoConsumidorServicos":"https://api.bcb.gov.br/dados/serie/bcdata.sgs.10844/dados/ultimos/"            
         }
     ],
     "scrapUrls":[
