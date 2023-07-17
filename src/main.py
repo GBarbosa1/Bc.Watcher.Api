@@ -16,10 +16,10 @@ class Message(BaseModel):
 def preco_amplo_total(last:str):
     try:
         ipca, statusCode = getIpcaTotal(last)
-        return ipca, last
+        return ipca
     except Exception as error:
         errorCode = "Failed to realize action the error is: "+str(error)
-        return errorCode, last
+        return errorCode
     
 
 @app.get("/Ipca/BensDuraveis/{last}")
