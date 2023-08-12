@@ -5,11 +5,16 @@ from scrap.scrap_engine import scrap_init, get_url,get_element_xpath, strip
 import requests
 from pydantic import BaseModel
 import uvicorn
+import time
 
 app = FastAPI()
 
 class Message(BaseModel):
     text: str
+    
+@app.get("/")
+def preco_amplo_total():
+    return("Hello world!")
     
 
 @app.get("/Ipca/PrecosMonitoradosTotal/{last}")
@@ -55,7 +60,9 @@ def servicos():
         settings = json_load("settings\settings.json")
         url = settings["scrapUrls"][0]["ataDoCopom"]
         browser = scrap_init(url)
+        time.sleep(5)
         dateElement = get_element_xpath(browser, settings["scrapUrls"][0]["ataCopomDateXpath"])
+        print(settings["scrapUrls"][0]["ataCopomDateXpath"])
         date = strip(dateElement)
         return date
     except Exception as error:
@@ -68,6 +75,7 @@ def servicos():
         settings = json_load("settings\settings.json")
         url = settings["scrapUrls"][0]["ataDoCopom"]
         browser = scrap_init(url)
+        time.sleep(5)
         downloadElement = get_element_xpath(browser, settings["scrapUrls"][0]["ataDownloadXPath"])
         downloadElement = downloadElement.get_attribute('href')
         return downloadElement
