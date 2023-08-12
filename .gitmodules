@@ -1,0 +1,3 @@
+[submodule "Bc.Watcher.Cron"]
+	path = Bc.Watcher.Cron
+	url = https://github.com/GBarbosa1/Bc.Watcher.Cron
